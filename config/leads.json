@@ -1,0 +1,90 @@
+{
+  "agent_config": {
+    "name": "Telegram Lead Agent",
+    "role": "Автономный агент по сбору лидов в Telegram",
+    "brand": "TechSolutions",
+    "tone": "professional_friendly",
+    "language": "ru"
+  },
+  "goals": [
+    "collect_contact_info",
+    "schedule_demo",
+    "qualify_lead",
+    "parse_audience"
+  ],
+  "intents": [
+    "greeting",
+    "express_interest",
+    "ask_about_product",
+    "request_price",
+    "schedule_meeting",
+    "request_info",
+    "thanks",
+    "goodbye",
+    "parse_request"
+  ],
+  "dialog_flows": {
+    "collect_contact_info": [
+      {
+        "type": "generate_response",
+        "template": "welcome_message"
+      },
+      {
+        "type": "collect_entity",
+        "entity": "user_name",
+        "question_template": "ask_name",
+        "validation": "text"
+      },
+      {
+        "type": "collect_entity",
+        "entity": "user_email",
+        "question_template": "ask_email",
+        "validation": "email"
+      },
+      {
+        "type": "generate_response",
+        "template": "thank_you"
+      }
+    ],
+    "schedule_demo": [
+      {
+        "type": "generate_response",
+        "template": "demo_intro"
+      },
+      {
+        "type": "collect_entity",
+        "entity": "preferred_date",
+        "question_template": "ask_date"
+      },
+      {
+        "type": "generate_response",
+        "template": "confirm_demo"
+      }
+    ]
+  },
+  "templates": {
+    "welcome_message": "Здравствуйте! Я AI-ассистент TechSolutions. Помогаю с подбором IT-решений для бизнеса. Чем могу помочь?",
+    "ask_name": "Как к вам обращаться?",
+    "ask_email": "На какой email отправить информацию о наших решениях?",
+    "ask_company": "Из какой вы компании? (необязательно)",
+    "ask_date": "Когда вам удобно провести демонстрацию?",
+    "demo_intro": "Отлично! Я могу организовать демонстрацию наших решений.",
+    "confirm_demo": "Записал! Свяжемся с вами для уточнения деталей.",
+    "thank_you": "Спасибо! Ваши данные сохранены. Наш менеджер свяжется с вами в ближайшее время.",
+    "success_message": "Отлично! Собрали все необходимые данные: имя - {name}, email - {email}. Свяжемся с вами скоро!",
+    "fallback": "Извините, не совсем понял ваш вопрос. Можете переформулировать?"
+  },
+  "tools": [
+    {
+      "name": "save_lead_crm",
+      "description": "Сохраняет лид в CRM систему",
+      "endpoint": "http://localhost:8000/api/leads",
+      "method": "POST"
+    }
+  ],
+  "scraping_settings": {
+    "max_users_per_group": 50,
+    "delay_between_requests": 0.5,
+    "save_format": "json"
+  }
+}
